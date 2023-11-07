@@ -1,11 +1,11 @@
-# Utilisez une image de NGINX comme image de base
-FROM nginx:latest
+FROM node:14 as build-step
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-# Copiez les fichiers de votre application frontend dans le conteneur
-COPY . /usr/share/nginx/html
-
-# Exposez le port 80 (par défaut) sur lequel NGINX écoute
+# Étape 2 : Utilisez une image Nginx pour servir l'application Angular
+FROM nginx:alpine
+COPY --from=build-step /app/dist /usr/share/nginx/html
 EXPOSE 4200
-
-# Commande pour démarrer NGINX
-CMD ["nginx", "-g", "daemon off;"]
