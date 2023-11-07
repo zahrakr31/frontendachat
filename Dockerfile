@@ -5,7 +5,7 @@ FROM nginx:latest
 COPY . /usr/share/nginx/html
 
 # Exposez le port 80 (par défaut) sur lequel NGINX écoute
-EXPOSE 80
+EXPOSE 4200
 
 # Commande pour démarrer NGINX
 CMD ["nginx", "-g", "daemon off;"]
